@@ -2,6 +2,29 @@ from easyAI import TwoPlayerGame
 import numpy as np
 
 
+"""
+How to set up the game:
+---
+Please install easyAI with pip3 install easyAI
+and run thegame with: python3 connect_four.py
+
+
+How to play:
+---
+The goal of the game is for the user to get 4 of his checkers
+in a row—horizontally, vertically, or diagonally
+before the AI does it.
+The user sets the checker with giving the column number 0-6 in his turn.
+The checker is always set at the first available space counting from bottom.
+Links to offline game instructions:
+https://www.wikiboardgames.com/rules-of-connect-four/
+https://www.virginialawngames.com/wp-content/uploads/2019/10/Connect-Four-Rule-Guide-How-To-Play-Connect-4.pdf
+https://instructions.hasbro.com/en-my/instruction/connect-4-game
+
+Authors: Adam Łuszcz, Anna Rogala
+"""
+
+
 class ConnectFour(TwoPlayerGame):
     def __init__(self, players):
         self.players = players
