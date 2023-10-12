@@ -27,11 +27,29 @@ Authors: Adam Łuszcz, Anna Rogala
 
 class ConnectFour(TwoPlayerGame):
     def __init__(self, players):
+        """
+        Initialize a ConnectFour game.
+
+        Args:
+            players (list): A list of two players (e.g., Human_Player, AI_Player) representing
+                            the two participants in the game.
+
+        Attributes:
+            - players (list): The list of players.
+            - board (numpy.ndarray): A 6x7 grid representing the game board.
+            - current_player (int): The ID of the current player (1 or 2).
+        """
         self.players = players
         self.board = np.zeros((6, 7), dtype=int)
         self.current_player = 1
 
     def possible_moves(self):
+        """
+        Get a list of possible moves (columns) that the current player can make.
+
+        Returns:
+            list: A list of column numbers (0-6) where a disc can be placed.
+        """
         moves = []
         for i in range(7):
             for row in self.board:
@@ -41,12 +59,21 @@ class ConnectFour(TwoPlayerGame):
         return moves
 
     def make_move(self, column):
+        """
+        Make a move by placing the current player's disc in the specified column.
+
+        Args:
+            column (int): The column where the disc is to be placed.
+        """
         for row in range(6):
             if self.board[row, column] == 0:
                 self.board[row, column] = self.current_player
                 break
 
     def show(self):
+        """
+        Display the current state of the game board.
+        """
         for row in range(6):
             row_str = ' '.join([['.', '1', '2'][self.board[5 - row][col]] for col in range(7)])
             print(row_str)
@@ -54,16 +81,44 @@ class ConnectFour(TwoPlayerGame):
         print("0 1 2 3 4 5 6")
 
     def lose(self):
+        """
+        Check if the current player has lost the game.
+
+        Returns:
+            bool: True if the current player has lost, False otherwise.
+        """
         return find_four(self.board, self.opponent_index)
 
     def is_over(self):
+        """
+        Check if the game is over.
+
+        Returns:
+            bool: True if the game is over, False otherwise.
+        """
         return (self.board.min() > 0) or self.lose()
 
     def scoring(self):
+        """
+        Define the scoring for the game.
+
+        Returns:
+            int: -100 if the current player has lost, otherwise 0.
+        """
         return -100 if self.lose() else 0
 
 
 def find_four(board, opponent_player):
+    """
+    Check if a player has formed a line of four discs on the game board.
+
+    Args:
+        board (numpy.ndarray): The game board.
+        opponent_player (int): The ID of the opponent player (1 or 2).
+
+    Returns:
+        bool: True if a line of four discs is found, False otherwise.
+    """
     directions = [(1, 0), (0, 1), (1, 1), (1, -1)]
 
     for i in range(6):
