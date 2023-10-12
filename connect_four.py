@@ -6,7 +6,7 @@ import numpy as np
 How to set up the game:
 ---
 Please install easyAI with pip3 install easyAI
-and run thegame with: python3 connect_four.py
+and run the game with: python3 connect_four.py
 
 
 How to play:
@@ -48,7 +48,7 @@ class ConnectFour(TwoPlayerGame):
         Get a list of possible moves (columns) that the current player can make.
 
         Returns:
-            list: A list of column numbers (0-6) where a disc can be placed.
+            list: A list of column numbers (0-6) where a checker can be placed.
         """
         moves = []
         for i in range(7):
@@ -60,10 +60,10 @@ class ConnectFour(TwoPlayerGame):
 
     def make_move(self, column):
         """
-        Make a move by placing the current player's disc in the specified column.
+        Make a move by placing the current player's checker in the specified column.
 
         Args:
-            column (int): The column where the disc is to be placed.
+            column (int): The column where the checker is to be placed.
         """
         for row in range(6):
             if self.board[row, column] == 0:
@@ -110,14 +110,14 @@ class ConnectFour(TwoPlayerGame):
 
 def find_four(board, opponent_player):
     """
-    Check if a player has formed a line of four discs on the game board.
+    Check if a player has formed a line of four checkers on the game board.
 
     Args:
         board (numpy.ndarray): The game board.
         opponent_player (int): The ID of the opponent player (1 or 2).
 
     Returns:
-        bool: True if a line of four discs is found, False otherwise.
+        bool: True if a line of four checkers is found, False otherwise.
     """
     directions = [(1, 0), (0, 1), (1, 1), (1, -1)]
 
