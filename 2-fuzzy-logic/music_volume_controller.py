@@ -19,6 +19,12 @@ and matplotlib with `pip3 install matplotlib`
 and run the game with: `app.py`
 
 
+How to use the program:
+---
+- Change the values of heart_beat_level, surrounding_noise_level and music_beat_rate_level.
+- Run the program to see visualized results.
+
+
 Authors: Adam Łuszcz, Anna Rogala
 """
 
