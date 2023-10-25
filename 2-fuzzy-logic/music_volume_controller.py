@@ -127,7 +127,7 @@ def music_volume_controller():
     aggregated = np.fmax(music_volume_activation_lo, np.fmax(music_volume_activation_md, music_volume_activation_hi))
 
     music_volume = fuzz.defuzz(x_music_volume, aggregated, 'centroid')
-    music_volume_activation = fuzz.interp_membership(x_music_volume, aggregated, music_volume)  # for plot
+    music_volume_activation = fuzz.interp_membership(x_music_volume, aggregated, music_volume)
     print(music_volume)
 
     fig, ax0 = plt.subplots(figsize=(8, 3))
