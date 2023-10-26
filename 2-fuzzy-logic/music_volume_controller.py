@@ -27,51 +27,55 @@ import skfuzzy as fuzz
 import matplotlib.pyplot as plt
 from skfuzzy import control as ctrl
 
-x_heart_beat = ctrl.Antecedent(np.arange(40, 101, 1), 'heart_beat')
-x_surrounding_noise = ctrl.Antecedent(np.arange(20, 141, 1), 'surrounding_noise')
-x_music_beat_rate = ctrl.Antecedent(np.arange(20, 201, 10), 'music_beat_rate')
+heart_beat = ctrl.Antecedent(np.arange(40, 101, 1), 'heart_beat')
+surrounding_noise = ctrl.Antecedent(np.arange(20, 141, 1), 'surrounding_noise')
+music_beat_rate = ctrl.Antecedent(np.arange(20, 201, 10), 'music_beat_rate')
+music_volume = ctrl.Consequent(np.arange(0, 51, 1), 'music_volume')
 
-x_music_volume = ctrl.Consequent(np.arange(0, 51, 1), 'music_volume')
 
-x_heart_beat['low'] = fuzz.trimf(x_heart_beat.universe, [40, 40, 60])
-x_heart_beat['medium'] = fuzz.trimf(x_heart_beat.universe, [40, 60, 100])
-x_heart_beat['high'] = fuzz.trimf(x_heart_beat.universe, [60, 100, 100])
-x_surrounding_noise['low'] = fuzz.trimf(x_surrounding_noise.universe, [20, 20, 80])
-x_surrounding_noise['medium'] = fuzz.trimf(x_surrounding_noise.universe, [20, 80, 140])
-x_surrounding_noise['high'] = fuzz.trimf(x_surrounding_noise.universe, [80, 140, 140])
+heart_beat['low'] = fuzz.trimf(heart_beat.universe, [40, 40, 60])
+heart_beat['medium'] = fuzz.trimf(heart_beat.universe, [40, 60, 100])
+heart_beat['high'] = fuzz.trimf(heart_beat.universe, [60, 100, 100])
 
-x_music_beat_rate['low'] = fuzz.trimf(x_music_beat_rate.universe, [20, 20, 80])
-x_music_beat_rate['medium'] = fuzz.trimf(x_music_beat_rate.universe, [20, 100, 180])
-x_music_beat_rate['high'] = fuzz.trimf(x_music_beat_rate.universe, [80, 200, 200])
+surrounding_noise['low'] = fuzz.trimf(surrounding_noise.universe, [20, 20, 80])
+surrounding_noise['medium'] = fuzz.trimf(surrounding_noise.universe, [20, 80, 140])
+surrounding_noise['high'] = fuzz.trimf(surrounding_noise.universe, [80, 140, 140])
 
-x_music_volume.automf(3, names=['low', 'medium', 'high'])
+music_beat_rate['low'] = fuzz.trimf(music_beat_rate.universe, [20, 20, 80])
+music_beat_rate['medium'] = fuzz.trimf(music_beat_rate.universe, [20, 100, 180])
+music_beat_rate['high'] = fuzz.trimf(music_beat_rate.universe, [80, 200, 200])
 
-x_heart_beat.view()
-x_surrounding_noise.view()
-x_music_beat_rate.view()
-x_music_volume.view()
+music_volume.automf(3, names=['low', 'medium', 'high'])
 
-rule1 = ctrl.Rule(x_heart_beat['low'], x_music_volume['low'])
-rule2 = ctrl.Rule(x_heart_beat['medium'] & (x_surrounding_noise['low'] & (x_music_beat_rate['low'] | x_music_beat_rate['medium'])), x_music_volume['low'])
-rule3 = ctrl.Rule((x_heart_beat['high'] & x_surrounding_noise['low']) & (x_music_beat_rate['low'] | x_music_beat_rate['medium']), x_music_volume['low'])
-rule4 = ctrl.Rule(x_heart_beat['medium'] & x_surrounding_noise['low'] & x_music_beat_rate['high'], x_music_volume['medium'])
-rule5 = ctrl.Rule(x_heart_beat['medium'] & (x_surrounding_noise['medium'] | x_surrounding_noise['high']), x_music_volume['medium'])
-rule6 = ctrl.Rule(x_heart_beat['high'] & x_surrounding_noise['low'] & x_music_beat_rate['high'], x_music_volume['medium'])
-rule7 = ctrl.Rule(x_heart_beat['high'] & x_surrounding_noise['medium'], x_music_volume['medium'])
 
-rule8 = ctrl.Rule(x_heart_beat['high'] & x_surrounding_noise['high'], x_music_volume['high'])
+heart_beat.view()
+surrounding_noise.view()
+music_beat_rate.view()
+music_volume.view()
 
-x_music_volume_ctrl = ctrl.ControlSystem([rule1, rule2, rule3, rule4, rule5, rule6, rule7, rule8])
 
-x_music_volume_sim = ctrl.ControlSystemSimulation(x_music_volume_ctrl)
+rule1 = ctrl.Rule(heart_beat['low'], music_volume['low'])
+rule2 = ctrl.Rule(heart_beat['medium'] & (surrounding_noise['low'] & (music_beat_rate['low'] | music_beat_rate['medium'])), music_volume['low'])
+rule3 = ctrl.Rule((heart_beat['high'] & surrounding_noise['low']) & (music_beat_rate['low'] | music_beat_rate['medium']), music_volume['low'])
 
-x_music_volume_sim.input['heart_beat'] = 90
-x_music_volume_sim.input['surrounding_noise'] = 106
-x_music_volume_sim.input['music_beat_rate'] = 60
+rule4 = ctrl.Rule(heart_beat['medium'] & surrounding_noise['low'] & music_beat_rate['high'], music_volume['medium'])
+rule5 = ctrl.Rule(heart_beat['medium'] & (surrounding_noise['medium'] | surrounding_noise['high']), music_volume['medium'])
+rule6 = ctrl.Rule(heart_beat['high'] & surrounding_noise['low'] & music_beat_rate['high'], music_volume['medium'])
+rule7 = ctrl.Rule(heart_beat['high'] & surrounding_noise['medium'], music_volume['medium'])
 
-x_music_volume_sim.compute()
+rule8 = ctrl.Rule(heart_beat['high'] & surrounding_noise['high'], music_volume['high'])
 
-print(x_music_volume_sim.output['music_volume'])
-x_music_volume.view(sim=x_music_volume_sim)
+music_volume_ctrl = ctrl.ControlSystem([rule1, rule2, rule3, rule4, rule5, rule6, rule7, rule8])
+
+music_volume_sim = ctrl.ControlSystemSimulation(music_volume_ctrl)
+
+music_volume_sim.input['heart_beat'] = 90
+music_volume_sim.input['surrounding_noise'] = 106
+music_volume_sim.input['music_beat_rate'] = 60
+
+music_volume_sim.compute()
+
+print(music_volume_sim.output['music_volume'])
+music_volume.view(sim=music_volume_sim)
 
 plt.show()
