@@ -53,4 +53,4 @@ Anna Rogala s21487
 
 ## Sources:
 - scikit-fuzzy usage example from documentation: https://scikit-fuzzy.readthedocs.io/en/latest/auto_examples/plot_tipping_problem.html
-- fuzzy logix project with scikit-fuzzy example: https://youtu.be/vG6aZEgbAVU?si=TvQR9F0Cez9TC_pG
+- fuzzy logic project with scikit-fuzzy example: https://youtu.be/vG6aZEgbAVU?si=TvQR9F0Cez9TC_pG
