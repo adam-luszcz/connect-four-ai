@@ -1,24 +1,24 @@
 """
-The program is a fuzzy logic controller for a music player.
-The controlled output is music player volume.
+The program is a fuzzy logic controller for a music player volume.
+It bases on 3 inputs:
+- user heart beat as beat per minut,
+- surrounding noise as decibels
+- music beat rate as beat per minute.
+The output is music player volume as percentage of full music volume.
+
 The system is desined for users listening to music while falling asleep.
-It takes into account 3 inputs: user heart beat, surrounding noise and music beat rate.
-The output is the volume of the music player.
 
 
 How to set up and run the program:
 ---
-Please install skfuzzy with `pip3 install skfuzzy`
 Please install skfuzzy with `pip3 install -U scikit-fuzzy`
 and matplotlib with `pip3 install matplotlib`
-and run the game with: `app.py`
+and run the program with: `app.py`
 
-
-How to use the program:
----
-- Change the values of heart_beat_level, surrounding_noise_level and music_beat_rate_level.
-- Run the program to see visualized results.
-
+the prompt will be shown to enter the values for:
+- user heart beat as beat per minut (scale: 40-100),
+- surrounding noise as decibels (scale: 20-140),
+- music beat rate as beat per minute (scale: 20-200).
 
 Authors: Adam Łuszcz, Anna Rogala
 """
