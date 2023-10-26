@@ -9,16 +9,21 @@ The output is music player volume as percentage of full music volume.
 The system is desined for users listening to music while falling asleep.
 
 
-How to set up and run the program:
+How to set up
 ---
 Please install skfuzzy with `pip3 install -U scikit-fuzzy`
 and matplotlib with `pip3 install matplotlib`
-and run the program with: `app.py`
 
-the prompt will be shown to enter the values for:
-- user heart beat as beat per minut (scale: 40-100),
-- surrounding noise as decibels (scale: 20-140),
-- music beat rate as beat per minute (scale: 20-200).
+
+How to run
+---
+Please set the inputs in the last lines of the program:
+music_volume_sim.input['heart_beat'] = <give_your_heart_beat>
+music_volume_sim.input['surrounding_noise'] = <give_surrounding_noise>
+music_volume_sim.input['music_beat_rate'] = <give_music_beat_rate>
+
+save and run the program with: `app.py`
+
 
 Authors: Adam Łuszcz, Anna Rogala
 """
