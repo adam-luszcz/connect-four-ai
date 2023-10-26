@@ -22,7 +22,7 @@ music_volume_sim.input['heart_beat'] = <give_your_heart_beat>
 music_volume_sim.input['surrounding_noise'] = <give_surrounding_noise>
 music_volume_sim.input['music_beat_rate'] = <give_music_beat_rate>
 
-save and run the program with: `python3 app.py`
+save and run the program with: `python3 music_volume_controller.py`
 
 
 Authors: Adam Łuszcz, Anna Rogala
