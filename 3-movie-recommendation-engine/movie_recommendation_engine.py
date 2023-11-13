@@ -41,7 +41,10 @@ model.fit(trainset)
 predictions = model.test(testset)
 accuracy.rmse(predictions)
 
-selected_user = 'Paweł Czapiewski'
+selected_user = input('Podaj użytkownika dla którego chcesz otrzymać rekomendacje: ')
+while processed_data[processed_data['Osoba'] == selected_user].empty:
+    print("Podany użytkownik nie istnieje w bazie!")
+    selected_user = input('\nPodaj użytkownika dla którego chcesz otrzymać rekomendacje: ')
 
 # Utworzenie listy filmów, które użytkownik już ocenił
 rated_movies = processed_data[processed_data['Osoba'] == selected_user]['Nazwa'].tolist()
