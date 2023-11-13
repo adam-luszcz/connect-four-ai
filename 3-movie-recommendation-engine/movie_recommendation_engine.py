@@ -43,7 +43,7 @@ accuracy.rmse(predictions)
 
 selected_user = 'Paweł Czapiewski'
 
-# Utwórzenie listę filmów, które użytkownik już ocenił
+# Utworzenie listy filmów, które użytkownik już ocenił
 rated_movies = processed_data[processed_data['Osoba'] == selected_user]['Nazwa'].tolist()
 
 # Wygenerowanie rekomendacji dla wybranego użytkownika
