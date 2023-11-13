@@ -54,7 +54,12 @@ for movie_id in processed_data['Nazwa'].unique():
         recommendations.append((movie_id, predicted_rating))
 
 top_recommendations = sorted(recommendations, key=lambda x: x[1], reverse=True)[:5]
+do_not_watch = sorted(recommendations, key=lambda x: x[1])[:5]
 
 print(f"Top 5 rekomendacji dla użytkownika {selected_user}:")
 for movie, rating in top_recommendations:
+    print(f"{movie}: {rating}")
+
+print(f"\nUżytkownik {selected_user} nie powinien oglądać:")
+for movie, rating in do_not_watch:
     print(f"{movie}: {rating}")
