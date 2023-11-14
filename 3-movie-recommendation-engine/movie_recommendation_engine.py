@@ -6,6 +6,9 @@ from surprise import accuracy
 
 
 df = pd.read_excel('parsed_data.xlsx')
+
+df.fillna(0, inplace=True)
+
 reader = Reader(rating_scale=(1, 10))
 
 # Przetworzenie danych do formatu zgodnego z biblioteką Surprise
@@ -15,10 +18,8 @@ for index, row in df.iterrows():
     for i in range(1, len(row), 2):
         movie = row.iloc[i]
         rating = row.iloc[i + 1]
-        # Wartosci puste w arkuszu sa z jakiegos powodu interpretowane jako float
-        if isinstance(movie, float) or isinstance(rating, float):
-            continue
-        data_list.append((user, movie, rating))
+        if movie and rating:
+            data_list.append((user, movie, rating))
 
 
 # Utworzenie DataFrame z przetworzonych danych
@@ -48,7 +49,6 @@ while processed_data[processed_data['Osoba'] == selected_user].empty:
 
 # Utworzenie listy filmów, które użytkownik już ocenił
 rated_movies = processed_data[processed_data['Osoba'] == selected_user]['Nazwa'].tolist()
-
 # Wygenerowanie rekomendacji dla wybranego użytkownika
 recommendations = []
 for movie_id in processed_data['Nazwa'].unique():
