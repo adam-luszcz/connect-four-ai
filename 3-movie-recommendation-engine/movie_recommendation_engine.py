@@ -3,6 +3,7 @@ from surprise import Reader, Dataset
 from surprise.model_selection import train_test_split
 from surprise import KNNBasic
 from surprise import accuracy
+import requests
 
 
 def process_data(filename):
@@ -42,17 +43,20 @@ def get_movie_recommendations(model, trainset, testset, user):
     return top_recommendations, do_not_watch
 
 
-def print_movie_recommendations(top_recommendations, do_not_watch, user, metric):
-    print(f'Metryka liczenia odległości: {metric}')
-    print(f'Top 5 rekomendacji dla użytkownika {user}:')
-    for movie, rating in top_recommendations:
-        print(f'{movie}: {rating}')
-
-    print(f'\nUżytkownik {user} nie powinien oglądać:')
-    for movie, rating in do_not_watch:
-        print(f'{movie}: {rating}')
-
-    print('\n')
+def print_movie_recommendations(recommendations):
+    for movie, rating in recommendations:
+        response = requests.get('https://search.imdbot.workers.dev/', params={'q': movie})
+        year = response.json()['description'][0]['#YEAR']
+        actors = response.json()['description'][0]['#ACTORS']
+        imdb_url = response.json()['description'][0]['#IMDB_URL']
+        print(f'''
+        =============================================
+        {movie}: {rating}
+        Year: {year}
+        Actors: {actors}
+        IMDB URL: {imdb_url}
+        =============================================
+        ''')
 
 processed_data = process_data('parsed_data.xlsx')
 reader = Reader(rating_scale=(1, 10))
@@ -79,7 +83,15 @@ while processed_data[processed_data['Osoba'] == selected_user].empty:
     selected_user = input('\nPodaj użytkownika dla którego chcesz otrzymać rekomendacje: ')
 
 top_recommendations_pearson, do_not_watch_pearson = get_movie_recommendations(model_pearson, trainset, testset, selected_user)
-print_movie_recommendations(top_recommendations_pearson, do_not_watch_pearson, selected_user, 'pearson')
+print('Metryka liczenia odległości: pearson')
+print(f'Top 5 rekomendacji dla użytkownika {selected_user}:')
+print_movie_recommendations(top_recommendations_pearson)
+print(f'\nUżytkownik {selected_user} nie powinien oglądać:')
+print_movie_recommendations(do_not_watch_pearson)
 
 top_recommendations_cosine, do_not_watch_cosine = get_movie_recommendations(model_cosine, trainset, testset, selected_user)
-print_movie_recommendations(top_recommendations_cosine, do_not_watch_cosine, selected_user, 'cosine')
+print('Metryka liczenia odległości: cosine')
+print(f'Top 5 rekomendacji dla użytkownika {selected_user}:')
+print_movie_recommendations(top_recommendations_cosine)
+print(f'\nUżytkownik {selected_user} nie powinien oglądać:')
+print_movie_recommendations(do_not_watch_cosine)
