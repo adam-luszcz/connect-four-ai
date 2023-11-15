@@ -36,8 +36,8 @@ def get_movie_recommendations(model, trainset, testset, user):
     model.fit(trainset)
     predictions = model.test(testset)
     accuracy.rmse(predictions)
-    # Utworzenie listy filmów, które użytkownik już ocenił
-    rated_movies = processed_data[processed_data['Osoba'] == user]['Nazwa'].tolist()
+    # Utworzenie zbioru filmów, które użytkownik już ocenił
+    rated_movies = set(processed_data[processed_data['Osoba'] == user]['Nazwa'])
 
     # Wygenerowanie rekomendacji dla wybranego użytkownika
     recommendations = []
