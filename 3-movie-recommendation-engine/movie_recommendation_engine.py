@@ -4,10 +4,18 @@ from surprise.model_selection import train_test_split
 from surprise import KNNBasic
 from surprise import accuracy
 import requests
+import os
 
 
 def process_data(filename):
-    df = pd.read_excel(filename)
+    if not os.path.isfile(filename):
+        raise FileNotFoundError(f"Nie znaleziono pliku: {filename}")
+
+    try:
+        df = pd.read_excel(filename)
+    except Exception as e:
+        raise Exception(f"Błąd podczas wczytywania pliku Excel: {e}")
+
     df.fillna(0, inplace=True)
 
     # Przetworzenie danych do formatu zgodnego z biblioteką Surprise
