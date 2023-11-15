@@ -51,28 +51,29 @@ def get_movie_recommendations(model, trainset, testset, user):
     return top_recommendations, do_not_watch
 
 
+def fetch_movie_info(movie_name):
+    try:
+        response = requests.get('https://search.imdbot.workers.dev/', params={'q': movie_name})
+        response.raise_for_status()
+        data = response.json()
+        if '#YEAR' in data['description'][0] and '#ACTORS' in data['description'][0] and '#IMDB_URL' in \
+                data['description'][0]:
+            year = data['description'][0]['#YEAR']
+            actors = data['description'][0]['#ACTORS']
+            imdb_url = data['description'][0]['#IMDB_URL']
+            return year, actors, imdb_url
+        else:
+            raise ValueError("Brakujące dane w odpowiedzi API")
+
+    except requests.RequestException as e:
+        print(f"Błąd podczas zapytania do API: {e}")
+    except ValueError as e:
+        print(f"Błąd danych: {e}")
+
+
 def print_movie_recommendations(recommendations):
     for movie, rating in recommendations:
-        try:
-            response = requests.get('https://search.imdbot.workers.dev/', params={'q': movie})
-            response.raise_for_status()
-
-            data = response.json()
-            if '#YEAR' in data['description'][0] and '#ACTORS' in data['description'][0] and '#IMDB_URL' in \
-                    data['description'][0]:
-                year = data['description'][0]['#YEAR']
-                actors = data['description'][0]['#ACTORS']
-                imdb_url = data['description'][0]['#IMDB_URL']
-            else:
-                raise ValueError("Brakujące dane w odpowiedzi API")
-
-        except requests.RequestException as e:
-            print(f"Błąd podczas zapytania do API: {e}")
-            continue
-        except ValueError as e:
-            print(f"Błąd danych: {e}")
-            continue
-
+        year, actors, imdb_url = fetch_movie_info(movie)
         print(f'''
         =============================================
         {movie}: {rating}
