@@ -6,6 +6,8 @@ from surprise import accuracy
 import requests
 import os
 
+SOURCE_FILE = 'parsed_data.xlsx'
+
 
 def process_data(filename):
     """
@@ -125,7 +127,7 @@ def print_movie_recommendations(recommendations):
         =============================================
         ''')
 
-processed_data = process_data('parsed_data.xlsx')
+processed_data = process_data(SOURCE_FILE)
 reader = Reader(rating_scale=(1, 10))
 data = Dataset.load_from_df(processed_data[['Osoba', 'Nazwa', 'Ocena']], reader)
 
