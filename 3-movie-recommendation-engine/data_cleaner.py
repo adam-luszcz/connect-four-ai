@@ -3,6 +3,19 @@ import requests
 
 
 def fetch_movie_title(movie_name):
+    """
+    Fetches the official movie title from an external API using the given movie name.
+
+    Parameters:
+    movie_name (str): The name of the movie for which the official title is to be fetched.
+
+    Returns:
+    str: The official title of the movie if found.
+
+    Raises:
+    ValueError: If the '#TITLE' data is not found for the given movie name.
+    Requests.RequestException: If there is an error while making the API request.
+    """
     try:
         response = requests.get('https://search.imdbot.workers.dev/', params={'q': movie_name})
         response.raise_for_status()
@@ -18,6 +31,18 @@ def fetch_movie_title(movie_name):
 
 
 def process_dataframe(df):
+    """
+    Processes a DataFrame by updating movie names with their official titles.
+
+    The function iterates through each column in the DataFrame that starts with 'Nazwa'.
+    For each movie name, it fetches the official title and updates the DataFrame accordingly.
+
+    Parameters:
+    df (pandas.DataFrame): The DataFrame containing movie names that need to be updated.
+
+    Note:
+    The function mutates the original DataFrame by replacing movie names with their official titles.
+    """
     processed_titles = {}
     for column in df.columns:
         if column.startswith('Nazwa'):
