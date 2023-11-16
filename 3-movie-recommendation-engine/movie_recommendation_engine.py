@@ -35,7 +35,6 @@ def process_data(filename):
 
     df.fillna(0, inplace=True)
 
-    # Przetworzenie danych do formatu zgodnego z biblioteką Surprise
     data_list = []
     for index, row in df.iterrows():
         user = str(row['Osoba'])
@@ -45,7 +44,6 @@ def process_data(filename):
             if movie and rating:
                 data_list.append((user, movie, rating))
 
-    # Utworzenie DataFrame z przetworzonych danych
     return pd.DataFrame(data_list, columns=['Osoba', 'Nazwa', 'Ocena'])
 
 
@@ -65,10 +63,9 @@ def get_movie_recommendations(model, trainset, testset, user):
     model.fit(trainset)
     predictions = model.test(testset)
     accuracy.rmse(predictions)
-    # Utworzenie zbioru filmów, które użytkownik już ocenił
+
     rated_movies = set(processed_data[processed_data['Osoba'] == user]['Nazwa'])
 
-    # Wygenerowanie rekomendacji dla wybranego użytkownika
     recommendations = []
     for movie_id in processed_data['Nazwa'].unique():
         if movie_id not in rated_movies:
@@ -131,7 +128,6 @@ processed_data = process_data(SOURCE_FILE)
 reader = Reader(rating_scale=(1, 10))
 data = Dataset.load_from_df(processed_data[['Osoba', 'Nazwa', 'Ocena']], reader)
 
-# Podział danych na zestawy treningowe i testowe
 trainset, testset = train_test_split(data, test_size=0.2, random_state=42)
 
 sim_options_pearson = {
