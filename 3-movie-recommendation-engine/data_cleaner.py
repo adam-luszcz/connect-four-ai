@@ -32,6 +32,6 @@ def process_dataframe(df):
 
 
 if __name__ == '__main__':
-    df = pd.read_excel(r'data.xlsx')
+    df = pd.read_excel('data.xlsx')
     process_dataframe(df)
     df.to_excel('parsed_data.xlsx')
