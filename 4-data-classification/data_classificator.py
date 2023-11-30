@@ -54,7 +54,7 @@ class DataAnalyzer:
     """
     def __init__(self, dataset_name, data_source, skip_first_column=False, is_sklearn_dataset=False):
         """
-        Initialize the DataAnalyzer with a dataset.
+        Initialize an instance of the DataAnalyzer class.
 
         Args:
         dataset_name (str): The name of the dataset.
@@ -63,12 +63,27 @@ class DataAnalyzer:
         is_sklearn_dataset (bool): If True, the data_source is treated as a sklearn dataset loader function. Defaults to False.
         """
         self.dataset_name = dataset_name
-        if is_sklearn_dataset:
-            self.features, self.labels = self.load_sklearn_dataset(data_source)
-        else:
-            self.features, self.labels = self.load_csv_dataset(data_source, skip_first_column)
+        self.features, self.labels = self.load_data(data_source, skip_first_column, is_sklearn_dataset)
+
         if self.features is not None:
             self.split_dataset()
+
+    def load_data(self, data_source, skip_first_column, is_sklearn_dataset):
+        """
+        Loads data from a CSV file or a sklearn dataset depending on the parameters.
+
+        Args:
+        data_source (str/function): The source of the data, either a path to a CSV file or a function to load a dataset from sklearn.
+        skip_first_column (bool): If True, skips the first column of the CSV file. Defaults to False.
+        is_sklearn_dataset (bool): If True, treats data_source as a function to load a dataset from sklearn. Defaults to False.
+
+        Returns:
+        tuple: A tuple containing features and labels.
+        """
+        if is_sklearn_dataset:
+            return self.load_sklearn_dataset(data_source)
+        else:
+            return self.load_csv_dataset(data_source, skip_first_column)
 
     @staticmethod
     def load_csv_dataset(file_path, skip_first_column):
