@@ -13,7 +13,7 @@ Install the packages from the requirements.txt with the following command `pip3 
 
 ## How to run:
 
-For each model, run one of these command in a respective directory:
+For each model, run one of these commands in a respective directory:
 
 ### sonar
 
